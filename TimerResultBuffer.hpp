@@ -4,18 +4,16 @@
 #include "TimerResult.hpp"
 
 #include <chrono>
+#include <iostream>
 #include <vector>
-
+//A circular buffer for storing timer results.
 class TimerResultBuffer
 {
-	//A circular buffer for storing timer results.
-	//It is meant to store results collected over a specified period of time.
-	//I need to store both the start and end points so I can tie the buffer to time.
 public:
 	//maxTime is the period of time the buffer is meant to hold.
 	//initSize is the initial size of the underlying vector. It will resize itself periodically. 
 	TimerResultBuffer(
-		const std::chrono::microseconds& maxTime = std::chrono::microseconds(1000), 
+		const std::chrono::microseconds& maxTime = std::chrono::microseconds(1000000), 
 		const int& initSize = 100) :
 		maxTime_(maxTime),
 		ringBuffer_(std::vector<TimerResult>(initSize, { std::chrono::high_resolution_clock::time_point(), std::chrono::microseconds(0)}))
@@ -44,7 +42,12 @@ public:
 	bool isEmpty() { return (head_ == tail_); }
 
 	void cullExpired() {
-		while (std::chrono::high_resolution_clock::now() - ringBuffer_[tail_].start > maxTime_ && tail_ != head_)
+		//need to cast to microseconds
+		while (
+			std::chrono::duration_cast<std::chrono::microseconds>(
+				std::chrono::high_resolution_clock::now() - ringBuffer_[tail_].start
+			) > maxTime_ 
+			&& tail_ != head_)
 		{
 			sum_ -= ringBuffer_[tail_].elapsed;
 			tail_ = (tail_ + 1) % ringBuffer_.size();
@@ -52,6 +55,7 @@ public:
 	}
 
 	//Doubles the size of the buffer by inserting before the tail, making room for more head insertions.
+	//This prevents resizing the underlying vector too often.
 	void expandBuffer()
 	{
 		int originalBufferSize = ringBuffer_.size();
@@ -61,6 +65,9 @@ public:
 	}
 
 	int count() {
+		cullExpired();
+		if (head_ >= tail_) std::cout << "head minus tail:" << head_ - tail_ << "\n";
+		else std::cout << "ringBuffer_.size() - tail_ + head_:" << ringBuffer_.size() - tail_ + head_ << "\n";
 		if (head_ >= tail_) return head_ - tail_;
 		else return ringBuffer_.size() - tail_ + head_;
 	}

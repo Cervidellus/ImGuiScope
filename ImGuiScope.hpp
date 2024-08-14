@@ -58,54 +58,8 @@ namespace ImGuiScope
 	private:
 		const std::chrono::high_resolution_clock::time_point startTime_ = std::chrono::high_resolution_clock::now();
 		const std::string timerName_;
-		//const std::function<void(std::string timerName, TimerResult)> resultCallback_;
 		const bool consoleOutput_;
 	};
 }
-
-
-
-
-
-//
-//class ImGuiScope
-//{
-//private:
-//	ImGuiScope();
-//	~ImGuiScope();
-//
-//
-//
-//	
-//	//define the global instance here. TimerResultManager.
-//
-//	//static methods that will interact with the static global object.
-//
-//	//Will first check to see if the timer with a string name is on.
-//	// If so, creates a scoped timer.
-//	// It will return a std::pair<std::string, TimerResult> to a callback in TimerResultManager.
-//
-//
-//	//start a scopedtimer
-//
-//public:
-//	//maybe this has to be a nested class?
-//	static void TimeScope(std::string timerName, bool consoleOutput = false);
-//
-//	static void drawResultsHeader(std::string headerTitle);
-//
-//	static std::vector<TimerResult> getResults(std::string timerName);
-//	//Maybe also have one that returns a map of timerName and the vectors of results.
-//
-//	static void putResult(std::string timerName, TimerResult result);
-//
-//private:
-//
-//	//ringBufferMap timerMap. Stores string name, and a struct that has the buffer as well as if the timer is turned on. Can I build that into the buffer object?
-//	std::map<std::string, TimerResultBuffer> timerMap_;
-//
-//};
-
-
 
 #endif //IMGUI_SCOPE_HPP
