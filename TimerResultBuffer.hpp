@@ -13,7 +13,7 @@ public:
 	//maxTime is the period of time the buffer is meant to hold.
 	//initSize is the initial size of the underlying vector. It will resize itself periodically. 
 	TimerResultBuffer(
-		const std::chrono::microseconds& maxTime = std::chrono::microseconds(1000000), 
+		const std::chrono::microseconds& maxTime = std::chrono::microseconds(10000000), 
 		const int& initSize = 100) :
 		maxTime_(maxTime),
 		ringBuffer_(std::vector<TimerResult>(initSize, { std::chrono::high_resolution_clock::time_point(), std::chrono::microseconds(0)}))
@@ -66,10 +66,19 @@ public:
 
 	int count() {
 		cullExpired();
-		if (head_ >= tail_) std::cout << "head minus tail:" << head_ - tail_ << "\n";
-		else std::cout << "ringBuffer_.size() - tail_ + head_:" << ringBuffer_.size() - tail_ + head_ << "\n";
 		if (head_ >= tail_) return head_ - tail_;
 		else return ringBuffer_.size() - tail_ + head_;
+	}
+
+	int last() {
+		if (head_ == tail_) return 0;
+		if (head_ > 0) return ringBuffer_[head_ - 1].elapsed.count();
+		return ringBuffer_.back().elapsed.count();
+	}
+
+	float mean()
+	{
+		return (float)sum_.count() / count();
 	}
 
 	std::chrono::nanoseconds sum()
@@ -80,11 +89,11 @@ public:
 
 
 private:
-	std::chrono::microseconds maxTime_ = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::seconds(1));
+	std::chrono::microseconds maxTime_;
 	std::vector<TimerResult> ringBuffer_;
 	int head_ = 0;
 	int tail_ = 0;
-	std::chrono::nanoseconds sum_ = std::chrono::nanoseconds(0);
+	std::chrono::microseconds sum_ = std::chrono::microseconds(0);
 };
 
 #endif //TIMER_RESULT_BUFFER_HPP

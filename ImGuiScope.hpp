@@ -14,33 +14,14 @@
 #include <memory>
 #include <string>
 
-//I think I might go back to a namespace, and have the scoped timer in the namespace.
-//Maybe I comment out the class and do a namespace so I can change my mind if I want.
-
-
-
-//I can have the underlying stored data in another object not exposed in teh ImGuiScope namespace, but what should I call it?
-
-//Could it just be the timermap? Does it even need to be a class? It could be just a public static object. 
-
-//so just static std::map<std::string, TimerResultBuffer> timerMap;
-
 namespace ImGuiScope
 {
-	//forward declarations
-	//class TimeScope;
-
 	namespace Internal
 	{
 		static std::map<std::string, std::unique_ptr<TimerResultBuffer>> timerMap;
 	}
 
-	//static void TimeScope(std::string timerName, bool consoleOutput = false);
-
 	void drawResultsHeader(std::string headerTitle);
-
-	//std::vector<TimerResult> getResults(std::string timerName);
-	//Maybe also have one that returns a map of timerName and the vectors of results.
 
 	void putResult(const std::string& timerName, const TimerResult& result);
 

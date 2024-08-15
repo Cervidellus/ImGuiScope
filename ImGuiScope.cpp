@@ -22,12 +22,22 @@ void ImGuiScope::drawResultsHeader(std::string headerTitle)
 		{
 			if (ImGui::CollapsingHeader(timerName.c_str()))
 			{
-				ImGui::Value("Count", timerBuffer->count());
 				if (!timerBuffer->isActive) timerBuffer->isActive = true;
+
+				ImGui::Value("Count", timerBuffer->count());
+				ImGui::Value("Last", timerBuffer->last());
+				ImGui::Value("Mean", timerBuffer->mean());
 			}
 			else if (timerBuffer->isActive) timerBuffer->isActive = false;
 		}
 		ImGui::Unindent();
+	}
+	else
+	{
+		for (const auto& [timerName, timerBuffer] : ImGuiScope::Internal::timerMap)
+		{
+			if (timerBuffer->isActive) timerBuffer->isActive = false;
+		}
 	}
 }
 
@@ -38,7 +48,6 @@ ImGuiScope::TimeScope::TimeScope(const std::string& timerName, const bool& conso
 	if (!ImGuiScope::Internal::timerMap.contains(timerName_))
 	{
 		ImGuiScope::Internal::timerMap.emplace(timerName, std::make_unique<TimerResultBuffer>());
-		//ImGuiScope::Internal::timerMap.emplace(timerName_, std::make_unique<TimerResultBuffer()>);
 	}
 }
 
