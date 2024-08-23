@@ -22,8 +22,11 @@ void ImGuiScope::drawResultsHeader(std::string headerTitle)
 		{
 			if (ImGui::CollapsingHeader(timerName.c_str()))
 			{
-				if (!timerBuffer->isActive) timerBuffer->isActive = true;
+				//Need a widget with units etc.
+				//Need a widget for size of buffer in time units.. what do I call that?
 
+
+				if (!timerBuffer->isActive) timerBuffer->isActive = true;
 				ImGui::Value("Count", timerBuffer->count());
 				ImGui::Value("Last", timerBuffer->last());
 				ImGui::Value("Mean", timerBuffer->mean());
