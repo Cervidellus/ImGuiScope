@@ -34,13 +34,13 @@ namespace ImGuiScope
 	{
 		static std::map<std::string, std::unique_ptr<TimerResultBuffer>> timerMap;
 
-		//for setting time scale from ImGui combo box
-		constexpr const char* timeBufferSizeNames[4] =
-		{ "1 second", "10 seconds" , "1 minute"  ,"10 minutes" };
+		////for setting time scale from ImGui combo box
+		//constexpr const char* timeBufferSizeNames[4] =
+		//{ "1 second", "10 seconds" , "1 minute"  ,"10 minutes" };
 
-		//for setting units from ImGui combo box
-		constexpr  const char* unitNames[3] =
-		{ "microseconds", "milliseconds", "seconds" };
+		////for setting units from ImGui combo box
+		//constexpr  const char* unitNames[3] =
+		//{ "microseconds", "milliseconds", "seconds" };
 	}
 }
 

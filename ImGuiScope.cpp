@@ -22,14 +22,40 @@ void ImGuiScope::drawResultsHeader(std::string headerTitle)
 		{
 			if (ImGui::CollapsingHeader(timerName.c_str()))
 			{
-				//Need a widget with units etc.
-				//Need a widget for size of buffer in time units.. what do I call that?
+				int index = 0;
+				ImGui::PushID(ImGui::GetID(timerName.c_str()));
 
+				ImGui::TextUnformatted("Timespan:");
+				for (const auto& timespan : TimerResultBuffer::timeBufferSizeNames)
+				{
+					//adding ##timerName adds a unique identifier to each radio button.
+					ImGui::RadioButton(timespan, &timerBuffer->timeBufferSizeIndex, index);
 
+					if (timespan != TimerResultBuffer::timeBufferSizeNames.back())
+					{
+						ImGui::SameLine();
+					}
+					index++;
+				}
+
+				ImGui::TextUnformatted("Unit:");
+				for (const auto& unitName : TimerResultBuffer::unitNames)
+				{
+					//adding ##timerName adds a unique identifier to each radio button.
+					ImGui::RadioButton(unitName, &timerBuffer->unitNameIndex, index);
+
+					if (unitName != TimerResultBuffer::unitNames.back())
+					{
+						ImGui::SameLine();
+						index++;
+					}
+				}
+				
 				if (!timerBuffer->isActive) timerBuffer->isActive = true;
 				ImGui::Value("Count", timerBuffer->count());
 				ImGui::Value("Last", timerBuffer->last());
 				ImGui::Value("Mean", timerBuffer->mean());
+				ImGui::PopID();
 			}
 			else if (timerBuffer->isActive) timerBuffer->isActive = false;
 		}

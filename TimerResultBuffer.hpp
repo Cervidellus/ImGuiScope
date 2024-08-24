@@ -3,6 +3,7 @@
 
 #include "TimerResult.hpp"
 
+#include <array>
 #include <chrono>
 #include <iostream>
 #include <vector>
@@ -37,12 +38,18 @@ public:
 	float mean();
 
 	std::chrono::nanoseconds sum();
+	
+	//for setting length of time buffer from ImGui combo box.
+	static const std::array<const char*, 4> timeBufferSizeNames;
+
+	//for setting units from ImGui combo box
+	static const std::array<const char*, 3> unitNames;
 
 public:
 	//True when the buffer is collecting results for the timer.
 	bool isActive = false;
 	//Index of ImGuiScope::Internal::timeBufferSizeNames used in ImGui widget
-	int bufferSizeNameIndex = 0;
+	int timeBufferSizeIndex = 0;
 	//Index of ImGuiScope::Internal::unitNames used in ImGui widget
 	int unitNameIndex = 1;
 
