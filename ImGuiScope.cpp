@@ -28,7 +28,6 @@ void ImGuiScope::drawResultsHeader(std::string headerTitle)
 				ImGui::TextUnformatted("Timespan:");
 				for (const auto& timespan : TimerResultBuffer::timeBufferSizeNames)
 				{
-					//adding ##timerName adds a unique identifier to each radio button.
 					ImGui::RadioButton(timespan, &timerBuffer->timeBufferSizeIndex, index);
 
 					if (timespan != TimerResultBuffer::timeBufferSizeNames.back())
@@ -38,12 +37,11 @@ void ImGuiScope::drawResultsHeader(std::string headerTitle)
 					index++;
 				}
 
+				index = 0;
 				ImGui::TextUnformatted("Unit:");
 				for (const auto& unitName : TimerResultBuffer::unitNames)
 				{
-					//adding ##timerName adds a unique identifier to each radio button.
 					ImGui::RadioButton(unitName, &timerBuffer->unitNameIndex, index);
-
 					if (unitName != TimerResultBuffer::unitNames.back())
 					{
 						ImGui::SameLine();
@@ -54,6 +52,7 @@ void ImGuiScope::drawResultsHeader(std::string headerTitle)
 				if (!timerBuffer->isActive) timerBuffer->isActive = true;
 				ImGui::Value("Count", timerBuffer->count());
 				ImGui::Value("Last", timerBuffer->last());
+				std::cout << timerBuffer->last() << "\n";
 				ImGui::Value("Mean", timerBuffer->mean());
 				ImGui::PopID();
 			}
