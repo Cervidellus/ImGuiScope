@@ -17,8 +17,14 @@ It must be named to ensure that it's lifetime spans the entire scope.
 ```
 {
 auto timer = ImGuiScope::TimeScope("process events");
-//DoSomething
+processEvents();
 }
+```
+If you don't want to put something inside a scope you can also use it with c++17 std::optional:
+```
+auto timer = std::make_optional<ImGuiScope::TimeScope>("process events");
+processEvents();
+timer.reset();
 ```
 
 To see the results, call ImGuiScope::drawResultsHeader somewhere that an ImGui frame is being drawn.
