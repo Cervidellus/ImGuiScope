@@ -1,10 +1,11 @@
 **About:**
-
+I always seem to keep rewriting scoped timers as I find them super helpful for debugging. 
+I decided to write one with a little added functionality.
 ImGuiScope is a simple tool to quickly provide benchmarking in an application that already makes use of Dear ImGui. 
 
 It provides:  
 -Named scoped timers.  
--Internal ring buffers for each timer that hold 10 seconds of results.  
+-Internal ring buffers for each timer that holds from 1 second to 10 minutes of results.  
 -Dear ImGui collapsing header widgets to display results.   
 
 **Dependencies**
